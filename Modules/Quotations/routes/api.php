@@ -7,7 +7,7 @@ use App\Http\Controllers\SettingController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get("/option-quotation-client-list", [QuotationController::class, 'optionClientList']);
-    Route::get("/option-quotation-lead-list", [QuotationController::class, 'optionLeadList'])->name('option.lead.list');
+    Route::get("/option-quotation-lead-list", [QuotationController::class, 'optionLeadList'])->name('option.quotation.lead.list');
     Route::apiResource('quotations', QuotationController::class)->names('quotations');
     Route::post('update-direct-quotation-status', [QuotationController::class, 'updateDirectQuotationStatus']);
     Route::post('generate-invoices', [QuotationController::class, 'generateInvoices']);
