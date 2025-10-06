@@ -1,4 +1,4 @@
-<x-productservice::layouts.master>
+<x-product::layouts.master>
     <h1>Hello World</h1>
 
     <p>Module: {!! config('productservice.name') !!}</p>

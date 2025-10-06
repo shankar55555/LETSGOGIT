@@ -8,7 +8,7 @@ Route::get('/test-notification/{module}/{ruleSlug}', [TestController::class, 'te
 Route::get('/test-dispatch-job/{rule_slug}', [TestController::class, 'testDispatchJob']);
 
 Route::get('/test-mail-send', [TestController::class, 'testMailSend']);
-Route::get('reset-password-view', [App\Http\Controllers\Api\AuthController::class, 'ResetPasswordView'])->name('reset-password-view');
+// Route::get('reset-password-view', [App\Http\Controllers\Api\AuthController::class, 'ResetPasswordView'])->name('reset-password-view');
 
 
 Route::get('/manifest.webmanifest', [App\Http\Controllers\ManifestController::class, 'manifest']);

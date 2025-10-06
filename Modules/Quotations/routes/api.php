@@ -8,7 +8,8 @@ use App\Http\Controllers\SettingController;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get("/option-quotation-client-list", [QuotationController::class, 'optionClientList']);
     Route::get("/option-quotation-lead-list", [QuotationController::class, 'optionLeadList'])->name('option.quotation.lead.list');
-    Route::apiResource('quotations', QuotationController::class)->names('quotations');
+    // Use distinct API route names to avoid collision with web resource (quotations.index)
+    Route::apiResource('quotations', QuotationController::class)->names('quotations-api');
     Route::post('update-direct-quotation-status', [QuotationController::class, 'updateDirectQuotationStatus']);
     Route::post('generate-invoices', [QuotationController::class, 'generateInvoices']);
     Route::get('/quotations/{quotation}/pdf', [QuotationController::class, 'downloadPdf'])->name('quotations.pdf');

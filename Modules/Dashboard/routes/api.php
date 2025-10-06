@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Modules\Dashboard\Http\Controllers\DashboardController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('dashboard', DashboardController::class)->names('dashboard');
+    // Use distinct API route names to avoid collision with web resource (dashboard.index)
+    Route::apiResource('dashboard', DashboardController::class)->names('dashboard-api');
 
     Route::get('upcoming-team-events', [DashboardController::class, 'teamUpcomingEvents'])->name('team-upcoming-events');
     Route::get('upcoming-lead-events', [DashboardController::class, 'upcomingLeadEvents'])->name('upcoming-lead-events');

@@ -19,5 +19,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::get('accounts/ledgers', [AccountController::class, 'getLedgers'])->name('accounts.ledgers');
     Route::get('accounts/balance-sheet', [AccountController::class, 'getBalanceSheet'])->name('accounts.balance-sheet');
     Route::get('accounts/profit-and-loss', [AccountController::class, 'getProfitAndLoss'])->name('accounts.profit-and-loss');
-    Route::apiResource('accounts', AccountController::class)->names('accounts');
+    // Use a distinct base name to avoid colliding with web routes ('accounts.index')
+    Route::apiResource('accounts', AccountController::class)->names('accounts-api');
 });

@@ -14,5 +14,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('leads/export', [LeadController::class, 'export']);
     Route::get('/dashboard-lead-list', [LeadController::class, 'dashboardLeadList']);
 
-    Route::apiResource('leads', LeadController::class)->names('leads');
+    // Use distinct API route names to avoid collision with web resource (leads.index)
+    Route::apiResource('leads', LeadController::class)->names('leads-api');
 });
