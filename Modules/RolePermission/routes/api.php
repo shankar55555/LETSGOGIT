@@ -8,7 +8,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         # Role api Name
         Route::get('/', [RolePermissionController::class, 'getRoleList'])->name('role.index');
         Route::get('/rank/target', [RolePermissionController::class, 'getTargetRankList'])->name('role.rank.target');
-        Route::get('/duplicate/{role_id}', [RolePermissionController::class, 'duplicateRoleCreate'])->name('role.index');
+        Route::get('/duplicate/{role_id}', [RolePermissionController::class, 'duplicateRoleCreate'])->name('role.duplicate');
         Route::post('/info', [RolePermissionController::class, 'getRoleInfo'])->name('role.info');
         Route::post('/create', [RolePermissionController::class, 'createRole'])->name('role.create');
         Route::post('/update', [RolePermissionController::class, 'updateRole'])->name('role.update');
