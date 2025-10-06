@@ -1,0 +1,11 @@
+{
+    "name": "AlertAndNotification",
+    "alias": "alertandnotification",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AlertAndNotification\\Providers\\AlertAndNotificationServiceProvider"
+    ],
+    "files": []
+}

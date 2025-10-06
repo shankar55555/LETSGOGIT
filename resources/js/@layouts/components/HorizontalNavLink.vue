@@ -1,0 +1,81 @@
+<script setup>
+import { layoutConfig } from '@layouts';
+import { can } from '@layouts/plugins/casl';
+import { getComputedNavLinkToProp, getDynamicI18nProps, isNavLinkActive, } from '@layouts/utils';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const props = defineProps({
+  item: { type: null, required: true, },
+  isSubItem: { type: Boolean, required: false, default: false, },
+})
+
+const checkRoute = (item) =>{
+  if(item.otherRouteList && item.otherRouteList.includes(route.name)){
+    return true;
+  }
+  return false;
+};
+
+const checkCanPermission = (item) => {
+  const hasMainPermission = item.permission ? can(item.permission.action, item.permission.subject) : false;
+
+  const hasExtraPermission = Array.isArray(item.extra_permission)
+    ? item.extra_permission.some(perm => can(perm.action, perm.subject))
+    : false;
+
+  const hasAnyVisibleChild = Array.isArray(item.children)
+    ? item.children.some(child => {
+      const childHasPermission = child.permission
+        ? can(child.permission.action, child.permission.subject)
+        : false;
+
+      const childHasExtra = Array.isArray(child.extra_permission)
+        ? child.extra_permission.some(extra => can(extra.action, extra.subject))
+        : false;
+
+      return childHasPermission || childHasExtra;
+    })
+    : false;
+
+  return hasMainPermission || hasExtraPermission || hasAnyVisibleChild;
+};
+</script>
+
+<template>
+  <li
+    v-if="checkCanPermission(item)"
+    class="nav-link"
+    :class="[{
+      'sub-item': props.isSubItem,
+      'disabled': item.disable,
+    }]"
+  >
+    <Component
+      :is="item.to ? 'RouterLink' : 'a'"
+      v-bind="getComputedNavLinkToProp(item)"
+      :class="{ 'router-link-active router-link-exact-active': isNavLinkActive(item, $router) || checkRoute(item) }"
+    >
+      <Component
+        :is="layoutConfig.app.iconRenderer || 'div'"
+        class="nav-item-icon"
+        v-bind="item.icon || layoutConfig.verticalNav.defaultNavItemIconProps"
+      />
+      <Component
+        :is="layoutConfig.app.i18n.enable ? 'i18n-t' : 'span'"
+        class="nav-item-title"
+        v-bind="getDynamicI18nProps(item.title, 'span')"
+      >
+        {{ item.title }}
+      </Component>
+    </Component>
+  </li>
+</template>
+
+<style lang="scss">
+.layout-horizontal-nav {
+  .nav-link a {
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

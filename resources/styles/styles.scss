@@ -1,0 +1,60 @@
+// Write your overrides
+
+p {
+  margin-bottom: 0 !important;
+}
+
+.drawer_logo {
+  inline-size: 100%;
+  max-inline-size: 195px;
+}
+
+
+.drawer_logo img {
+  inline-size: 100%;
+}
+
+.box_shadow {
+  box-shadow: 0 0 18px #00000047 !important;
+}
+
+.sticky-table tr.v-data-table__tr td:nth-child(1) {
+  position: sticky;
+  z-index: 2;
+  background-color: rgb(var(--v-theme-surface)) !important;
+  inset-inline-start: 0;
+}
+
+.sticky-table .v-data-table__thead tr th:nth-child(1) {
+  position: sticky !important;
+  z-index: 4;
+  background-color: rgb(var(--v-theme-surface)) !important;
+  inset-inline-start: 0;
+}
+
+.custom_top_margin {
+  margin-block-start: 55px;
+}
+
+
+
+
+
+
+
+/* Accounting Vue Plugin CSS Variable Overrides */
+:root {
+  --acc-primary-color: rgba(var(--v-theme-primary));
+  --acc-border-color: rgba(var(--v-border-color), var(--v-border-opacity));
+  --acc-error-color: rgba(var(--v-theme-error));
+  --acc-secondary-color: rgba(var(--v-theme-secondary));
+  --acc-text-dark: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
+  --acc-primary-text-color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
+  --acc-primary-color-hover: rgba(var(--v-theme-primary), 0.38);
+  --acc-default-font-family: Public Sans, sans-serif;
+  --acc-input-bg-color: transparent;
+  --acc-outlined-color: transparent;
+  --acc-primary-color-tonal: rgba(var(--v-theme-primary), 0.16);
+  --acc-error-color-tonal: rgba(var(--v-theme-error), 0.16);
+}
+/* End Accounting Vue Plugin CSS Variable Overrides */

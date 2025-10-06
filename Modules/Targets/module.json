@@ -1,0 +1,11 @@
+{
+    "name": "Targets",
+    "alias": "targets",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Targets\\Providers\\TargetsServiceProvider"
+    ],
+    "files": []
+}

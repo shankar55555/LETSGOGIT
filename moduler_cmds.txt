@@ -1,0 +1,317 @@
+php artisan module:make Leads
+php artisan module:make-model Leads Leads -m
+php artisan module:make-request LeadsStoreRequest Leads
+php artisan module:make-request LeadsUpdateRequest Leads
+php artisan module:make-resource LeadsResource Leads
+php artisan module:make-service LeadsService Leads
+php artisan module:make-repository LeadsRepository Leads
+php artisan module:make-controller LeadsController Leads --api
+
+# not use this cmd
+php artisan module:make-factory LeadFactory Leads
+php artisan module:make-seed LeadsTableSeeder Leads
+php artisan module:migrate Leads
+php artisan module:seed Leads
+php artisan module:make-test LeadApiTest Leads
+
+php artisan module:make-helper NotificationHelper Leads
+php artisan module:make-helper NotificationHelper Clients
+php artisan module:make-helper NotificationHelper Contracts
+php artisan module:make-helper NotificationHelper FollowUp
+php artisan module:make-helper NotificationHelper Invoices
+php artisan module:make-helper NotificationHelper SiteVisit
+php artisan module:make-helper NotificationHelper Quotations
+
+php artisan module:seed AlertAndNotification --class=AlertAndNotificationDatabaseSeeder
+
+
+Nobal solar , color: 
+https://noblesolarsystem.com/ 
+
+            //                 'slug' => 'lead-created',
+            //                 'slug' => 'assigned-to-user',
+
+            //                 'slug' => 'client-created',
+            //                 'slug' => 'assigned-to-user',
+
+
+            //                 'slug' => 'assigned-to-user',
+            //                 'slug' => 'site-visit-complete',
+
+            //                 'slug' => 'followup-created',
+
+            //                 'slug' => 'quotation-created',
+            //                 'slug' => 'quotation-accepted',
+            //                 'slug' => 'quotation-rejected',
+            //                 'slug' => 'invoice-created',
+            //                 'slug' => 'full-payment',
+
+
+# Lead Rule Send Notification body params -> 
+        # ["name", "contact_person", "contact_person_role", "email", "phone", "address", "status", "source", "assigned_user", "note", "created_by", "last_updated_by", "client_id", "quotation_id"];
+        $lead = Lead::with(['creator', 'updater', 'assignedUser', 'client', 'quotations', 'status_info'])->findOrFail($lead_id);
+        $data = $lead->toArray();
+
+        # UUIDs of related users
+        $data['created_by_uuid'] = $lead->created_by; # UUID of creator
+        $data['last_updated_by_uuid'] = $lead->last_updated_by; # UUID of last updater
+        $data['assigned_user_uuid'] = $lead->assigned_user; # UUID of assigned user
+
+        # Human-readable names from relations
+        $data['created_by'] = $lead->creator?->name ?? ''; # Name of creator (User relation)
+        $data['last_updated_by'] = $lead->updater?->name ?? ''; # Name of last updater (User relation)
+        $data['assigned_user'] = $lead->assignedUser?->name ?? ''; # Name of assigned user (User relation)
+
+        # Status text from AdminControlConfig
+        $data['status'] = $lead->status_info?->status_text ?? $lead->status;
+
+        # Client name from Client model
+        $data['client_id'] = $lead->client?->name ?? ''; # Name of client
+
+        # Quotation numbers as comma-separated string
+        $data['quotation_id'] = $lead->quotations->count() > 0 ? implode(',', $lead->quotations->pluck('quotation_number')->toArray()) : ''; # Quotation numbers
+        $data['created_at'] = formatAccordingDateTime($lead->created_at, 'full_date_1');
+
+        $notificationHelper = new NotificationHelper();
+        $notificationHelper->handle($ruleSlug, $data);
+
+# Client Rule Send Notification body params -> 
+        # [ "name", "contact_person", "contact_person_role", "email", "phone", "status", "assigned_user", "created_by", "last_updated_by", "lead_id"];
+        $client = Client::with(['creator', 'updater', 'status_info', 'assignedUser', 'leads', 'quotations',])->findOrFail($client_id);
+        $data = $client->toArray();
+
+        # UUIDs of related users
+        $data['created_by_uuid'] = $client->created_by; # UUID of creator
+        $data['last_updated_by_uuid'] = $client->last_updated_by; # UUID of last updater
+        $data['assigned_user_uuid'] = $client->assigned_user; # UUID of assigned user
+
+        # Human-readable names from relations
+        $data['created_by'] = $client->creator?->name ?? ''; # Name of creator (User relation)
+        $data['last_updated_by'] = $client->updater?->name ?? ''; # Name of last updater (User relation)
+        $data['assigned_user'] = $client->assignedUser?->name ?? ''; # Name of assigned user (User relation)
+
+        # Status text from AdminControlConfig
+        $data['status'] = $client->status_info?->status_text ?? $client->status;
+
+        # Quotation numbers as comma-separated string
+        $data['quotation_id'] = $client->quotations->isNotEmpty() ? $client->quotations->pluck('quotation_number')->implode(',') : ''; # quotation numbers
+        $data['lead_id'] = $client->leads->count() > 0 ? implode(',', $client->leads->pluck('name')->toArray()) : ''; # Lead name
+        $data['created_at'] = formatAccordingDateTime($client->created_at, 'full_date_1');
+
+        $notificationHelper = new NotificationHelper();
+        $notificationHelper->handle($ruleSlug, $data);
+
+# Quotation Rule Send Notification body params -> 
+        # Load quotation with all related models we need
+        # ["company_name", "quotation_number", "valid_uptil", "quotation_type", "title", "sub_total", "discount", "tax", "total", "status", "items", "custom_header_text", "payment_terms", "terms_conditions", "lead_id", "client_id", "created_by", "last_updated_by", 'created_at']
+        $quotation = Quotation::with(['creator', 'updater', 'status_info', 'clientDetail', 'leadDetail'])->findOrFail($quotation_id);
+        $data = $quotation->toArray();
+
+        $data['created_by_uuid']      = $quotation->created_by;       # Creator UUID
+        $data['last_updated_by_uuid'] = $quotation->last_updated_by;  # Last updater UUID
+
+        $data['created_by']      = $quotation->creator?->name ?? '';
+        $data['last_updated_by'] = $quotation->updater?->name ?? '';
+
+        $data['client_id'] = $quotation->clientDetail?->name ?? '';  # Client name
+        $data['lead_id']   = $quotation->leadDetail?->name ?? '';  # Lead name
+
+        $data['valid_uptil'] = formatAccordingDateTime($quotation->valid_uptil, 'd-m-Y');
+        $data['created_at']  = formatAccordingDateTime($quotation->created_at, 'full_date_1');
+
+        # Status text from AdminControlConfig
+        $data['status'] = $quotation->status_info?->status_text ?? $quotation->status;
+
+        # Original 'items' is an array of objects; we re-map it to just names
+        $data['items'] = collect($quotation->items)->pluck('name')->all() ?? '';
+
+        $notificationHelper = new NotificationHelper();
+        $notificationHelper->handle($ruleSlug, $data);
+
+
+# Invoice Rule Send Notification body params -> 
+        # Load quotation with all related models we need
+        # ["company_name", 'invoice_number', 'title', 'description', 'items', 'amount_paid', 'sub_total', 'tax', 'discount', 'total', 'status', 'due_date', 'client_id', 'contract_id', 'quotation_id', 'created_by', 'last_updated_by']
+        $invoice = Invoice::with(['creator', 'updater', 'status_info', 'quotation.clientDetail', 'quotation.leadDetail', 'client'])->findOrFail($invoice_id);
+        $data = $invoice->toArray();
+
+        $data['created_by_uuid'] = $invoice->created_by; # Creator UUID
+        $data['last_updated_by_uuid'] = $invoice->last_updated_by; # Last updater UUID
+
+        $data['created_by'] = $invoice->creator?->name ?? '';
+        $data['last_updated_by'] = $invoice->updater?->name ?? '';
+
+        $data['client_id'] = $invoice->client?->name ?? $invoice->quotation?->client?->name ?? $invoice->quotation?->leadDetail?->name ?? ''; # Client name
+
+        $data['due_date'] = formatAccordingDateTime($invoice->due_date, 'd-m-Y');
+        $data['created_at'] = formatAccordingDateTime($invoice->created_at, 'full_date_1');
+
+        # Status text from AdminControlConfig
+        $data['status'] = $invoice->status_info?->status_text ?? $invoice->status;
+
+        # Cast returns an array of item‑objects; we pluck only the `name` field.
+        $data['items'] = collect($invoice->items)->pluck('name')->all() ?? '';
+        
+        $notificationHelper = new NotificationHelper();
+        $notificationHelper->handle($ruleSlug, $data);
+
+# FollowUp Rule Send Notification body params -> 
+        # Load Follow Up with all related models we need
+        # ['call_status','lead_prospect','call_summary','created_by','last_updated_by','lead_id','client_id','next_call_datetime','need_site_visit','site_visit_datetime','site_visit_user_id' ];
+        $followUp = FollowUp::with(['creator', 'updater', 'status_info', 'client', 'lead', 'site_visit_user'])->findOrFail($follow_up_id);
+        $data = $followUp->toArray();
+
+        $data['created_by_uuid'] = $followUp->created_by; # Creator UUID
+        $data['last_updated_by_uuid'] = $followUp->last_updated_by; # Last updater UUID
+
+        $data['created_by'] = $followUp->creator?->name ?? '';
+        $data['last_updated_by'] = $followUp->updater?->name ?? '';
+
+        $data['client_id'] = $followUp->client?->name ?? '';
+        $data['lead_id'] = $followUp->lead?->name ?? '';
+        $data['site_visit_user_id'] = $followUp->site_visit_user?->name ?? '';
+
+        $data['next_call_datetime'] = $followUp->next_call_datetime ? formatAccordingDateTime($followUp->next_call_datetime, 'full_date_1') : '';
+        $data['site_visit_datetime'] = $followUp->site_visit_datetime ? formatAccordingDateTime($followUp->site_visit_datetime, 'full_date_1') : '';
+        $data['created_at'] = formatAccordingDateTime($followUp->created_at, 'full_date_1');
+
+        # Status text from AdminControlConfig
+        $data['call_status'] = $followUp->status_info?->status_text ?? $followUp->call_status;
+        
+        $notificationHelper = new NotificationHelper();
+        $notificationHelper->handle($ruleSlug, $data);
+
+# SiteVisit Rule Send Notification body params -> 
+        # Load Site Visit with all related models we need
+        # [ 'visit_type', 'visit_time', 'visit_assignee', 'status', 'visit_notes', 'products', 'lead_id', 'client_id', 'created_by', 'last_updated_by', 'created_at'];
+        $siteVisit = SiteVisit::with(['creator', 'updater', 'status_info', 'client', 'lead', 'site_risk'])->findOrFail($site_visit_id);
+        $data = $siteVisit->toArray();
+
+        $data['created_by_uuid'] = $siteVisit->created_by; # Creator UUID
+        $data['last_updated_by_uuid'] = $siteVisit->last_updated_by; # Last updater UUID
+
+        $data['created_by'] = $siteVisit->creator?->name ?? '';
+        $data['last_updated_by'] = $siteVisit->updater?->name ?? '';
+
+        $data['client_id'] = $siteVisit->client?->name ?? '';
+        $data['lead_id'] = $siteVisit->lead?->name ?? '';
+
+        # site_risk info
+        $data["address"] = $siteVisit->site_risk?->address ?? '';
+        $data["building_type"] = $siteVisit->site_risk?->building_type ?? '';
+        $data["roof_type"] = $siteVisit->site_risk?->roof_type ?? '';
+        $data["height_of_roof"] = $siteVisit->site_risk?->height_of_roof ?? '';
+        $data["service"] = $siteVisit->site_risk?->service ?? '';
+        $data["visit_datetime"] = $siteVisit->site_risk?->visit_datetime && $siteVisit->site_risk?->visit_datetime ? formatAccordingDateTime($siteVisit->site_risk?->visit_datetime, 'full_date_1') : '';
+        $data["solution_recommended"] = $siteVisit->site_risk?->solution_recommended ?? '';
+
+        $data['visit_time'] = $siteVisit->visit_time ? formatAccordingDateTime($siteVisit->visit_time, 'full_date_1') : '';
+        $data['created_at'] = formatAccordingDateTime($siteVisit->created_at, 'full_date_1');
+
+        # Status text from AdminControlConfig
+        $data['status'] = $siteVisit->status_info?->status_text ?? $siteVisit->status;
+
+        $notificationHelper = new NotificationHelper();
+        $notificationHelper->handle($ruleSlug, $data);
+
+# Contract Rule Send Notification body params -> 
+        # ['title', 'description', 'items', 'start_date', 'end_date', 'sub_total', 'discount', 'tax', 'total', 'status', 'client_id', 'quotation_id', 'invoice_id', 'created_by', 'last_updated_by'];
+        $contract = Contract::with(['creator', 'updater', 'status_info'])->findOrFail($contract_id);
+        $data = $contract->toArray();
+
+        $data['created_by_uuid'] = $contract->created_by; # Creator UUID
+        $data['last_updated_by_uuid'] = $contract->last_updated_by; # Last updater UUID
+
+        $data['created_by'] = $contract->creator?->name ?? '';
+        $data['last_updated_by'] = $contract->updater?->name ?? '';
+        $data['client_id'] = $contract->client?->name ?? '';
+        $data['quotation_id'] = $contract->quotation?->quotation_number ?? '';
+
+        $data['start_date'] = formatAccordingDateTime($contract->due_date, 'd-m-Y');
+        $data['end_date'] = formatAccordingDateTime($contract->due_date, 'd-m-Y');
+        $data['created_at'] = formatAccordingDateTime($contract->created_at, 'full_date_1');
+
+        # Status text from AdminControlConfig
+        $data['status'] = $contract->status_info?->status_text ?? $contract->status;
+
+        # Cast returns an array of item‑objects; we pluck only the `name` field.
+        $data['items'] = collect($contract->items)->pluck('name')->all() ?? '';
+
+        $data['invoice_id'] = $contract->invoices->pluck('invoice_number')->implode(', ');
+
+        $notificationHelper = new NotificationHelper();
+        $notificationHelper->handle($ruleSlug, $data);
+
+Fix status issue on edit user time 
+
+
+
+RUN REVERB ON LIVE CHANGE IT 
+</****************************************************.env**************************************************/>
+ #Note : sudo ufw allow 6001 
+# Broadcasting Configuration
+BROADCAST_CONNECTION=reverb
+
+# Reverb App Credentials
+REVERB_APP_ID=140786
+REVERB_APP_KEY=3uycmhelbzzrh8ujb6me
+REVERB_APP_SECRET=ynijehiviieghycbc2ua
+
+# Reverb WebSocket Server (Laravel backend)
+REVERB_SERVER_HOST=127.0.0.1
+REVERB_SERVER_PORT=6001
+
+# Reverb Frontend Access
+REVERB_HOST=modularcrm.eligocs.com
+REVERB_PORT=443
+REVERB_SCHEME=https
+
+# Vite Frontend Reverb Configuration
+VITE_REVERB_APP_KEY=${REVERB_APP_KEY}
+VITE_REVERB_HOST=${REVERB_HOST}
+VITE_REVERB_PORT=${REVERB_PORT}
+VITE_REVERB_SCHEME=${REVERB_SCHEME}
+
+
+
+</****************************************************echo.js**************************************************/>
+import Echo from 'laravel-echo';
+
+import Pusher from 'pusher-js';
+window.Pusher = Pusher;
+ // wsPort: import.meta.env.VITE_REVERB_PORT ??  6001,
+ //    wssPort: import.meta.env.VITE_REVERB_PORT ?? 6001,
+const echo = new Echo({
+    // window.Echo = new Echo({
+    broadcaster: 'reverb',
+    key: import.meta.env.VITE_REVERB_APP_KEY,
+    wsHost: import.meta.env.VITE_REVERB_HOST,
+    wsPort: 443,
+    wssPort: 443,
+    forceTLS: true, //(import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
+    enabledTransports: ['ws', 'wss'],
+});
+
+export default echo;
+
+
+</****************************************************apache2 host **************************************************/>
+    # WebSocket Proxy for Laravel Reverb
+    <IfModule mod_proxy.c>
+        ProxyRequests Off
+        ProxyPreserveHost On
+
+        # Enable WebSocket support
+        RewriteEngine On
+        RewriteCond %{HTTP:Upgrade} =websocket [NC]
+        RewriteCond %{HTTP:Connection} upgrade [NC]
+        RewriteRule ^/app/(.*) ws://127.0.0.1:6001/app/$1 [P,L]
+
+        # Normal HTTP fallback for app requests
+        ProxyPass /app/ http://127.0.0.1:6001/app/
+        ProxyPassReverse /app/ http://127.0.0.1:6001/app/
+        
+        # Required for pusher-http-php to send events to Reverb
+        ProxyPass /apps/ http://127.0.0.1:6001/apps/
+        ProxyPassReverse /apps/ http://127.0.0.1:6001/apps/
+    </IfModule>

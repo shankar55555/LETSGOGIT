@@ -1,0 +1,245 @@
+/* Accounting Module Styles */
+
+/* Button Styles */
+.account_v_btn_primary {
+  background-color: var(--acc-primary-color) !important;
+  color: #fff !important;
+}
+
+.account_v_btn_outlined {
+  border-color: var(--acc-border-color) !important;
+  color: var(--acc-text-dark) !important;
+}
+
+.account_v_btn_link {
+  color: var(--acc-primary-color) !important;
+}
+
+.account_v_btn_error {
+  background-color: var(--acc-error-color) !important;
+  color: #fff !important;
+}
+
+.account_v_btn_light {
+  background-color: var(--acc-primary-color-tonal) !important;
+  color: var(--acc-primary-color) !important;
+}
+
+.account_v_btn_ghost {
+  color: var(--acc-text-dark) !important;
+}
+
+/* Card Styles */
+.account_vcard_border {
+  border: 1px solid var(--acc-border-color) !important;
+}
+
+.account_ui_vcard {
+  border-radius: 8px;
+}
+
+.account_v_card_dark {
+  background-color: var(--acc-primary-color) !important;
+  color: #fff !important;
+}
+
+.account_widget_vcard {
+  background-color: #fff;
+}
+
+/* Text Styles */
+.account_text_white {
+  color: #fff !important;
+}
+
+.account_text_dark {
+  color: var(--acc-text-dark) !important;
+}
+
+.account_text_subtitle {
+  color: var(--acc-primary-text-color) !important;
+  opacity: 0.7;
+}
+
+.account_label {
+  color: var(--acc-text-dark);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.account_label_bold {
+  color: var(--acc-text-dark);
+  font-weight: 600;
+}
+
+.account_label_light {
+  color: var(--acc-primary-text-color);
+  opacity: 0.8;
+}
+
+/* Form Elements */
+.accouting_field {
+  background-color: var(--acc-input-bg-color) !important;
+}
+
+.accouting_active_field {
+  border-color: var(--acc-border-color) !important;
+}
+
+.accounting_v_textarea {
+  background-color: var(--acc-input-bg-color) !important;
+  border-color: var(--acc-border-color) !important;
+}
+
+.account_v_checkbox {
+  color: var(--acc-primary-color) !important;
+}
+
+.account_swtich_btn {
+  color: var(--acc-primary-color) !important;
+}
+
+/* Table Styles */
+.account_dynamic_table {
+  border: 1px solid var(--acc-border-color);
+  border-radius: 8px;
+}
+
+.account_entries_table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.account_entries_table th,
+.account_entries_table td {
+  border: 1.5px solid var(--acc-border-color) !important;
+  padding: 8px;
+}
+
+/* Chip Styles */
+.account_chip_primary {
+  background-color: var(--acc-primary-color-tonal) !important;
+  color: var(--acc-primary-color) !important;
+}
+
+.account_chip_secondary {
+  background-color: var(--acc-secondary-color) !important;
+  color: #fff !important;
+}
+
+.account_chip_outline {
+  border: 1px solid var(--acc-border-color) !important;
+  background-color: transparent !important;
+}
+
+/* GST Summary Styles */
+.account_gst_title {
+  color: var(--acc-text-dark);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.account_gst_subtitle {
+  color: var(--acc-primary-text-color);
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.account_gst_subtitle_val {
+  color: var(--acc-text-dark);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.account_gst_invoice_subtitle {
+  color: var(--acc-primary-text-color);
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.account_gst_invoice_subtitle_val {
+  color: var(--acc-text-dark);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.account_gst_invoice_subtitle_total {
+  color: var(--acc-text-dark);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.account_gst_invoice_subtitle_total_val {
+  color: var(--acc-primary-color);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* Menu Styles */
+.account_vcard_menu_item {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.account_vcard_menu_item:hover {
+  background-color: var(--acc-primary-color-tonal);
+}
+
+.account_vcard_close_btn {
+  color: var(--acc-text-dark) !important;
+}
+
+/* Date Input */
+.accounting_date_input {
+  border: 1px solid var(--acc-border-color) !important;
+  border-radius: 4px;
+}
+
+/* Add Button */
+.account_add_new_btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: var(--acc-primary-color) !important;
+  color: #fff !important;
+  z-index: 999;
+}
+
+/* Form Section Styles */
+.account_form_info_hdng {
+  color: var(--acc-text-dark);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+/* Group Styles */
+.account_group_primary {
+  color: var(--acc-primary-color) !important;
+  font-weight: 600;
+}
+
+.account_group_error {
+  color: var(--acc-error-color) !important;
+  font-weight: 600;
+}
+
+/* Income Statement Styles */
+.account_income_chip {
+  background-color: var(--acc-primary-color-tonal) !important;
+  color: var(--acc-primary-color) !important;
+}
+
+/* Active Border */
+.active_border {
+  border: 2px solid var(--acc-primary-color) !important;
+}
+
+/* Filter Button */
+.account_filter_btn_color {
+  color: var(--acc-text-dark) !important;
+}
+
+.account_filter_menu_checkbox {
+  margin-right: 0 !important;
+}
