@@ -1,4 +1,4 @@
-# ModularCrm - Development CRM System
+# BhoomiCRM - Development CRM System
 
 A modern CRM system built with Laravel backend and Vue.js frontend.
 

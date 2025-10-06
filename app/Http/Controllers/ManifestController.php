@@ -14,7 +14,7 @@ class ManifestController extends Controller
         $settings = getSettingInfo();
 
         $manifest = [
-            "name" => $settings['company_name'] ?? "Modular CRM",
+            "name" => $settings['company_name'] ?? "Bhoomi CRM",
             "short_name" => $settings['short_name'] ?? "CRM",
             "start_url" => "/",
             "display" => "standalone",

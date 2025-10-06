@@ -208,7 +208,7 @@ const fetchCompanyDetails = async () => {
       formData.value.email_color = setting.value.email_color;
       previewImage.value = setting.value.company_logo ? setting.value.company_logo : null;
       formData.value.short_name = setting.value.short_name || setting.value.company_name;
-      formData.value.description = setting.value.description || "This is Modular CRM";
+      formData.value.description = setting.value.description || "This is Bhoomi CRM";
       pwaLogo192Preview.value = setting.value.pwa_logo_192 || null;
       pwaLogo512Preview.value = setting.value.pwa_logo_512 || null;
     }

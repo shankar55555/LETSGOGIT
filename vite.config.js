@@ -105,8 +105,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'Vuexy CRM',
-        short_name: 'VuexyCRM',
-        description: 'A modular CRM built with Vue 3 and Laravel',
+        short_name: 'BhoomiCRM',
+        description: 'A Bhoomi CRM built with Vue 3 and Laravel',
         theme_color: '#7367F0',
         background_color: '#ffffff',
         display: 'standalone',

@@ -16,7 +16,7 @@ We are integrating Laravel Modules to manage different application modules (e.g.
 
 ## Router Configuration
 
-### Importing Dynamic Modular Router File
+### Importing Dynamic Bhoomi CRM Router File
 # File: resources/js/plugins/1.router/index.js
 # Step 1: Dynamically import all module router files
 const moduleRoutes = import.meta.glob('@modules/*/resources/assets/js/router/index.{js,ts}', { eager: true })

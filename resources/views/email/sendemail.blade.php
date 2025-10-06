@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Your Password - ModularCRM</title>
+    <title>Reset Your Password - Bhoomi CRM</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -175,7 +175,7 @@
         <div class="email-container">
             <!-- Header Section -->
             <div class="header">
-                <div class="logo">ModularCRM</div>
+                <div class="logo">BhoomiCRM</div>
                 <div class="header-subtitle">Password Reset Request</div>
             </div>
 
@@ -206,12 +206,12 @@
 
             <!-- Footer -->
             <div class="footer">
-                <p class="company-name">ModularCRM Team</p>
+                <p class="company-name">BhoomiCRM Team</p>
                 <p class="footer-text">Thank you for choosing our platform!</p>
 
                 <div class="contact-info">
                     <p>This is an automated message, please do not reply to this email.</p>
-                    <p>© {{ date('Y') }} ModularCRM. All rights reserved.</p>
+                    <p>© {{ date('Y') }} BhoomiCRM. All rights reserved.</p>
                 </div>
             </div>
         </div>

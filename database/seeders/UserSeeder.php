@@ -115,7 +115,7 @@ class UserSeeder extends Seeder
         # Add setting in info 
         $user_id = User::where('email', CommonConst::TESTING_EMAIL)->pluck('uuid')->first();
         $setting_list = [
-            ["key" => "company_name", "value" => "Noble Solar", "created_by" => $user_id],
+            ["key" => "company_name", "value" => "Bhoomi Treads", "created_by" => $user_id],
             ["key" => "phone", "value" => "08091706162", "created_by" => $user_id],
             ["key" => "address", "value" => "DEALS IN : SOLAR WATER HEATERS SOLAR ROOF TOP PLANT SOLAR HEAT PUMP SOLAR CCTV CAMERA SOLAR INVERTER SOLAR BATTERY SOLAR STREET LIGHTS SOLAR FENCING SOLAR DECORATIVE LIGHTING SOLAR HOME LIGHTING SYSTEM ETC", "created_by" => $user_id],
             ["key" => "company_logo", "value" => asset('images\logo\logo.png'), "created_by" => $user_id],

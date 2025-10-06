@@ -64,10 +64,11 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered)
       <slot name="nav-header">
 
         <div class="w-100" v-if="setting && setting.company_logo">
-          <RouterLink style="height: 66px;" to="/dashboard"
+          <RouterLink style="block-size: 66px;" to="/dashboard"
             class="app-logo drawer_logo app-title-wrapper justify-start">
-            <img :src="setting.company_logo" alt="logo" class="header-logo" style="width: 50px; height: 50px;">
-            <h2 style="line-height: 25px;" class="text-dark">Modular CRM</h2>
+            <img :src="setting.company_logo" alt="logo" class="header-logo"
+              style=" block-size: 50px;inline-size: 50px;">
+            <h2 style="line-height: 25px;" class="text-dark">Bhoomi CRM</h2>
           </RouterLink>
         </div>
         <RouterLink v-else to="/dashboard" class="app-logo app-title-wrapper">
