@@ -1,7 +1,7 @@
 <script setup>
-import { defineProps, defineEmits, computed } from 'vue'
-import navigationListItems from '@/data/navigation_list_items'
-import { useRoute } from 'vue-router'
+import { computed, defineEmits, defineProps } from 'vue';
+// import navigationListItems from '@/data/navigation_list_items'
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
@@ -16,18 +16,18 @@ const drawerModel = computed({
 })
 
 const settingsItems = computed(() => {
-  return navigationListItems
-    .flatMap(section => section.items)
-    .filter(item => ['company-settings', 'role-and-permission'].includes(item.slug));
+  // return navigationListItems
+  //   .flatMap(section => section.items)
+  //   .filter(item => ['company-settings', 'role-and-permission'].includes(item.slug));
 })
 
 const navigationItems = computed(() => {
-  return navigationListItems.map(section => {
-    const filteredItems = section.items.filter(item =>
-      !['company-settings', 'role-and-permission'].includes(item.slug)
-    );
-    return { ...section, items: filteredItems };
-  }).filter(section => section.items.length > 0); // remove empty sections
+  // return navigationListItems.map(section => {
+  //   const filteredItems = section.items.filter(item =>
+  //     !['company-settings', 'role-and-permission'].includes(item.slug)
+  //   );
+  //   return { ...section, items: filteredItems };
+  // }).filter(section => section.items.length > 0); // remove empty sections
 });
 
 </script>
@@ -46,7 +46,7 @@ const navigationItems = computed(() => {
         <v-list class="account_navigation_list">
           <template v-for="(section, index) in navigationItems" :key="index">
             <v-list-subheader class="account_nav_section mt-2" v-if="section.section">{{ section.section
-            }}</v-list-subheader>
+              }}</v-list-subheader>
 
             <VListItem v-for="item in section.items" :key="item.title" :to="item.path" link
               class="px-3 account_nav_listitem d-flex align-center mx-2 gap-2 py-1">
