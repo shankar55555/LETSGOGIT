@@ -80,6 +80,44 @@ class AuthController extends Controller
         }
     }
 
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->actionFailure($validator->errors()->first());
+        }
+
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->user_name = $request->user_name ?? (explode('@', $request->email)[0] ?? $request->name);
+            $user->password = Hash::make($request->password);
+            $user->status = CommonConst::ACTIVE;
+            $user->save();
+
+            $token = $user->createToken('API Token')->plainTextToken;
+
+            $info = adminAddLoginUserLog($user, $request);
+
+            $response = [
+                'access_token' => $token,
+                'permissions' => $user->getPermissionsViaRoles(),
+                'user' => $user->makeHidden('roles'),
+                'status' => true
+            ];
+
+            return $this->actionSuccess('Registration successful', $response);
+        } catch (\Exception $e) {
+            return $this->actionFailure($e->getMessage());
+        }
+    }
+
     public function changePassword(Request $request)
     {
         try {

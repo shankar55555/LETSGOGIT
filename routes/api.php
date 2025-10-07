@@ -10,6 +10,7 @@ use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'signIn']);
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/log-unauthenticated-access', [AuthController::class, 'logUnauthenticatedAccess']);
 Route::get('/dropdown-user-list', [UserController::class, 'dropdownUserList'])->name('dropdown.user.list');
 Route::post('/update-password/{user_id}', [UserController::class, 'updatePassword'])->name('update-password');

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('country_code')->default("+91");
             $table->string('phone')->nullable();
+            $table->string('type')->default('client');
             $table->integer('salary')->nullable();
             $table->boolean('mark_attendance')->nullable()->default(false);
             $table->string('user_name')->nullable();
