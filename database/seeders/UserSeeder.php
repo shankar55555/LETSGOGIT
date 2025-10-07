@@ -28,9 +28,9 @@ class UserSeeder extends Seeder
 
         $users = [
             [
-                'name' => 'Pankaj Sharma',
+                'name' => 'Surya',
                 'email' => CommonConst::TESTING_EMAIL,
-                'user_name' => 'super_admin',
+                'user_name' => 'surya',
                 'password' => CommonConst::TESTING_EMAIL_PASSWORD,
                 'country_code' => '+91',
                 'phone' => '9876919999',
@@ -44,9 +44,9 @@ class UserSeeder extends Seeder
                 "roles" => [RolePermissionConst::SLUG_SUPER_ADMIN],
             ],
             [
-                'name' => 'Admin',
-                'email' => 'admin1@eligocs.com',
-                'user_name' => 'admin',
+                'name' => 'Rohit',
+                'email' => 'rohit@gmail.com',
+                'user_name' => 'rohit',
                 'password' => CommonConst::TESTING_EMAIL_PASSWORD,
                 'country_code' => '+91',
                 'phone' => '9876919888',
@@ -137,7 +137,7 @@ class UserSeeder extends Seeder
 
         $user_id = User::where('email', CommonConst::TESTING_EMAIL)->pluck('uuid')->first();
         if (Module::has(CommonConst::MODULE_PRODUCT_SERVICE)) {
-            ProductService::query()->update(['created_by' => $user_id]);
+            // ProductService::query()->update(['created_by' => $user_id]);
         }
 
         if (Module::has(CommonConst::MODULE_LEAD)) {
